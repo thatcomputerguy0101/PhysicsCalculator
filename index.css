@@ -470,6 +470,7 @@ h2 {
     height: 25px;
     min-width: 50px;
     margin: 5px;
+    padding: 0 4px;
     border-radius: 7px;
     background-color: #aaa;
     text-align: center;
