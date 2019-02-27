@@ -1,0 +1,17 @@
+{
+    "name": "PhysicsCalculator",
+    "version": "0.0.1",
+    "eslintConfig": {
+        "env": {
+            "browser": true,
+            "node": true
+        },
+        "parserOptions": {
+            "ecmaVersion": 2018
+        }
+    },
+    "dependencies": {
+        "eslint": "^5.10.0",
+        "mathjs": "^5.4.0"
+    }
+}

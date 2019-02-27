@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32">
+    <rect width="32" height="32" fill="#5d2"/>
+<!--
+    <path d="M 6 30 V 2 H 26 V 18 H 11 V 30 Z" fill="#5d2"/>
+    <rect x="11" y="6" width="10" height="8" fill="#555"/>
+-->
+<!--    <rect x="11" y="18" width="15" height="12" fill="#888"/>-->
+<!--    <text x="2" y="20">Σ</text>-->
+    <path d="M 6 4 H 26 V 10 L 24 8 H 12 L 20 16 L 12 24 H 24 L 26 22 V 28 H 6 V 24 L 14 16 L 6 8" fill="#666"/>
+</svg>

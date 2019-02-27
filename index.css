@@ -1,0 +1,507 @@
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+}
+
+body {
+    display: flex;
+}
+
+h1 {
+    color: #666;
+    font-family: sans-serif;
+    text-align: center;
+    margin: 5px 5px 8px;
+    font-size: 15pt;
+}
+
+h2 {
+    margin: 7px;
+    font-size: 16pt;
+}
+
+.helpme {
+    position: absolute;
+    top: -19px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 12pt;
+    font-weight: 100;
+    margin: 0 10px;
+    pointer-events: none;
+    transition: opacity 0.3s 2.5s;
+}
+
+.givenInput:not(:hover) .helpme {
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.helpme span {
+    border: solid 1px #888;
+    padding: 2px;
+}
+
+.main {
+    display: inline-block;
+    height: 100%;
+    padding: 0;
+    position: relative;
+    flex-shrink: 0;
+}
+
+.sub {
+}
+
+.add, .cancel {
+    position: absolute;
+    bottom: 7px;
+    right: 7px;
+    cursor: pointer;
+}
+
+.sub .add, .cancel {
+    top: -7px;
+    transform: translate(0, -100%)
+}
+
+.keys {
+    margin-bottom: 5px;
+    text-align: center;
+}
+
+.keys div {
+    display: inline-block;
+    margin: auto 5px;
+    padding: 3px;
+    border: solid 1px #666;
+    border-radius: 4px;
+    width: 20px;
+    background-color: #fafafa;
+    box-shadow: inset 0 0 2px #888;
+    cursor: pointer;
+}
+
+.vecArrow {
+    display: inline-block;
+    width: 0;
+    position: relative;
+    bottom: 8px;
+    right: 1.6ch;
+    font-size: 9pt;
+}
+
+.vecArrow.sub {
+    bottom: unset;
+    top: 8px;
+    right: 1.8ch;
+}
+
+.selectionField {
+    position: relative;
+}
+
+.selectionField .mq-cursor {
+    display: none !important;
+}
+
+.dropdown {
+    position: absolute;
+    width: calc(100% + 2px);
+    margin-left: -1px !important;
+    padding-top: 4px !important;
+    border: solid 1px;
+    border-color: #777 !important;
+}
+
+.dropdown:not(.dropped) {
+    display: none;
+}
+
+.dropdown span {
+    display: block;
+    font-size: 90%;
+}
+
+.portion {
+    transition: 0.25s background-color;
+}
+
+.deleting .portion:hover {
+    background-color: #dfd;
+}
+
+.given {
+    position: relative;
+}
+
+.modalGivens .given {
+}
+
+.given img {
+    position: absolute;
+    padding: 4px;
+    margin: auto 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    transition: opacity 0.25s;
+}
+
+.given img:nth-of-type(2) {
+    right: 16px;
+}
+
+.given:not(:hover) img, #givens .given img {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.givenInput {
+    text-align: center;
+    margin: 10px;
+}
+
+.givenInput .latex {
+    margin: 5px;
+    font-size: 25px !important;
+}
+
+.error {
+    border-color: red !important;
+}
+
+.error.mq-focused, .error:not(.mq-editable-field) {
+    box-shadow: #d88 0 0 1px 2px, inset #e66 0 0 2px 0 !important;
+}
+
+.givenInput img {
+    vertical-align: middle;
+    margin: 5px;
+}
+
+.modalGivens {
+    display: flex;
+    flex-grow: 1;
+    flex-wrap: wrap;
+}
+
+.modalGivens .given {
+    display: flex;
+    min-width: 30%;
+    flex-grow: 1;
+    align-items: center;
+    justify-content: center;
+}
+
+.solutions {
+    width: 100%;
+    flex: 1;
+    display: flex;
+}
+
+.stream {
+    padding: 0 10px;
+    display: flex;
+    height: 100%;
+    flex-shrink: 0;
+    flex-grow: 1;
+    flex-direction: column;
+/*    justify-content: flex-end;*/
+    flex-wrap: nowrap;
+    overflow-y: scroll;
+/*    overflow-x: visible;*/
+    scroll-behavior: smooth;
+}
+
+.stream .latex {
+    position: relative;
+    margin: 5px auto;
+    overflow: visible;
+    font-size: 20px !important;
+    color: #888;
+    transition: font-size 0.5s, color 0.5s;
+}
+
+.stream .latex:nth-child(2) {
+    font-family: sans-serif;
+    margin-top: auto;
+    padding-top: 15px;
+    cursor: pointer;
+}
+
+.stream .latex:nth-last-child(2), .stream .latex:not(:nth-child(2)):hover, .stream .latex:not(:nth-child(2)):focus-within, .stream .latex.selected {
+    font-size: 24px !important;
+    color: #000;
+}
+
+.stream .spacer {
+    height: 30%;
+    min-height: 70px;
+    flex-shrink: 0;
+}
+
+.selection {
+    overflow: scroll;
+    height: 100%;
+    background-color: #ddd;
+}
+
+.category .title {
+    position: relative;
+    display: block;
+    padding: 3px;
+    font-size: 18px;
+}
+
+.category .title img {
+    position:absolute;
+    right: 3px;
+    transform: translate(0, 50%);
+}
+
+.category.open .title img {
+    transform: translate(0, 50%) scaleY(-1);
+}
+
+.equationList {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-items: baseline;
+    overflow: hidden;
+    box-sizing: content-box;
+    width: 100%;
+    padding: 5px 0;
+    background-color: #fff;
+    transition: height 0.5s, padding 0.2s;
+}
+
+.category:not(.open) .equationList {
+    height: 0 !important;
+    padding: 0;
+    transition: height 0.5s, padding 0.2s 0.3s;
+}
+
+.equationList .latex, .equationList img {
+    text-align: center;
+    padding: 0 10px;
+    font-size: 20px !important;
+}
+
+#givens {
+    display: block;
+    padding: 5px 3px 5px 4.5px;
+    flex-shrink: 0;
+    overflow-y: auto;
+    overflow-x: none;
+}
+
+#givens .given {
+    margin: 5px 0px;
+}
+
+#givens .border {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 1.5px;
+    height: 100%;
+    background-color: #7c0;
+    cursor: col-resize;
+}
+
+#equations {
+    flex-grow: 1;
+    flex-shrink: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+#equations:not(.selecting) #equationSelection {
+    height: 0 !important;
+}
+
+#equations.selecting .add, #equations:not(.selecting) .cancel, #equations.forced .cancel {
+    display: none;
+}
+
+#equationSolutions {
+    flex-grow: 1;
+    display: flex;
+    overflow: auto;
+    position: relative;
+}
+
+#equationSolutions .mq-math-mode .mq-selection, #equationSolutions .mq-math-mode .mq-selection .mq-non-leaf, #equationSolutions .mq-math-mode .mq-selection .mq-scaled {
+    background-color: #8f6 !important;
+}
+
+#popup {
+    display: inline-flex;
+    border: solid 2px #888;
+    background-color: #eee;
+}
+
+#popup .operationButton {
+    min-width: 50px;
+    height: 30px;
+    border: solid #7f2;
+    border-radius: 10px;
+    margin: 10px;
+    padding: 0px;
+    background-color: #fffffffe;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#popupSizer {
+    position: absolute;
+}
+
+#popupSizer > img {
+    position: absolute;
+    bottom: -8px;
+    left: calc(50% - 10px)
+}
+
+#popupSizer:not(.visible) {
+    display: none;
+}
+
+#equationSelection {
+    position: relative;
+}
+
+#equationSelection .border {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 1.5px;
+    background-color: #777;
+    cursor: row-resize;
+}
+
+#problems {
+    padding: 5px 4.5px 5px 3px;
+    flex-shrink: 0;
+    overflow-y: auto;
+}
+
+#problems .border {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 1.5px;
+    height: 100%;
+    background-color: #7c0;
+    cursor: col-resize;
+}
+
+#modal, #miniModal {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #0006;
+    transition: opacity 0.5s;
+}
+
+#modal:not(.active), #miniModal:not(.active) {
+    opacity: 0;
+    pointer-events: none;
+}
+
+#modal .box {
+    position: absolute;
+    display: flex;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: calc(25px + 7%);
+    border: solid #7c0 2px;
+    flex-direction: column;
+    background-color: #fff;
+    padding: 10px;
+}
+
+#miniModal .box {
+    position: absolute;
+    display: flex;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    max-width: 300px;
+    max-height: 400px;
+    margin: auto;
+    border: solid #7c0 2px;
+    flex-direction: column;
+    background-color: #fff;
+    padding: 10px;
+}
+
+#modal .title, #miniModal .title {
+    font-weight: bold;
+    font-size: 20px;
+}
+
+#modal .content, #miniModal .content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    position: relative;
+}
+
+#miniModal .content {
+    justify-content: center;
+}
+
+#modal .navigation div, #miniModal .navigation div {
+    height: 25px;
+    min-width: 50px;
+    margin: 5px;
+    border-radius: 7px;
+    background-color: #aaa;
+    text-align: center;
+    line-height: 25px;
+    box-shadow: inset 0 0 3px 2px #5552;
+    float: right;
+    cursor: pointer;
+}
+
+#modal .navigation div.primary, #miniModal .navigation div.primary {
+    background-color: #7e3;
+}
+
+#modal .navigation div.secondary, #miniModal .navigation div.secondary {
+    float: left;
+}
+
+#modal .disabled, #miniModal .disabled {
+    filter: brightness(110%) grayscale(60%);
+    color: #444;
+}
+
+#miniModal .expressionInput {
+    text-align: center;
+    font-size: 25px;
+    padding: 15px 0;
+}
+
+#miniModal .expressionInput > .mq-root-block {
+    overflow: visible;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}

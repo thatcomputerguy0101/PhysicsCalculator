@@ -1,0 +1,6 @@
+{
+    "name": "Physics Calculator",
+    "start_url": "/",
+    "display": "standalone",
+    "description": "A calculator to make solving phisics problems algebraically more accessable to those who have poor handwriting."
+}
