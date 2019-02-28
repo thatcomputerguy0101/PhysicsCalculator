@@ -88,6 +88,34 @@
                 <div class="navigation"></div>
             </div>
         </div>
+        <script>
+            // Beta Alert
+            if (location.host == "thatcomputerguy0101.github.io") {
+                modal.classList.add("active");
+                var modalNavigation = modal.querySelector(".navigation");
+                var modalTitle = modal.querySelector(".title");
+                var modalContent = modal.querySelector(".content");
+
+                var confirmation = document.createElement("div");
+                    confirmation.classList.add("primary")
+                    confirmation.innerHTML = "Yes, I want to try out the Beta version";
+                    confirmation.addEventListener("click", () => {modal.classList.remove("active")});
+                modalNavigation.appendChild(confirmation);
+                var cancel = document.createElement("div");
+                    cancel.innerHTML = "No, take me back";
+                    cancel.addEventListener("click", () => {history.back()});
+                modalNavigation.appendChild(cancel);
+
+                modalTitle.innerHTML = "Warning, This editor is still in Beta";
+
+                var warning = document.createElement("div");
+                    warning.style.position = "absolute";
+                    warning.style.top = "50%";
+                    warning.style.transform = "translateY(-50%)"
+                    warning.innerHTML = `Safari, IOS, and Internet Explorer are currently incompatible with this editor. If you are on an IOS device, please use a different device. If you are using Safari on a Mac or Internet Explorer on Windows, please use a different browser. <br><br>This editor is still under development and may have many bugs. If you find any bugs, help is appriciated and is accepted either by <a href="https://github.com/thatcomputerguy0101/PhysicsCalculator/issues/new" target="_blank">submitting an issue on GitHub</a> (preferred) or by <a href="https://docs.google.com/forms/d/e/1FAIpQLSfS5R4dfvEgQhdkNvSHBN2cqMAwjbqHPg-eRkiivLkEhx6l4g/viewform?usp=sf_link" target="_blank">submitting the Google Form</a>.`;
+                modalContent.appendChild(warning);
+            }
+        </script>
         <link rel="preload" as="image" href="images/arrow.svg">
         <script src="index.js"></script>
         <link rel="preload" as="image" href="images/check.svg">
