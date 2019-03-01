@@ -145,8 +145,10 @@ window.addEventListener("keydown", e => {
 function getMQSelection(mathField) {
     var mFMQ = MQ(mathField)
     if (mFMQ && mathField.getElementsByClassName("mq-selection").length) {
-        var selection = getSelection().toString();
-        var retVal = mFMQ.write("\\text{selection}").latex().replace("\\text{selection}", "\\$s" + selection + "\\$e");
+        var start = mFMQ.latex();
+        var retVal = mFMQ.write("\\text{selection}").latex();
+        var selection = start.replace(RegExp("^" + retVal.replace(/\\text{selection}.*$/, "").replace(/[$()*+\-.?[\\\]^{|}]/g, "\\$&")), "").replace(RegExp(retVal.replace(/^.*\\text{selection}/, "").replace(/[$()*+\-.?[\\\]^{|}]/g, "\\$&") + "$"), "");
+        retVal = retVal.replace("\\text{selection}", "\\$s" + selection + "\\$e");
         mFMQ.keystroke("Shift-Left").write(selection).keystroke("Shift-Left ".repeat(parseBrackets(selection).match(/(\\\d+)[([{|].*\1[)\]}|]|\\\w*(?:(?:(\\\d+l)[[{].*\2[\]}])+| |$|(?=\\[A-Za-z]))|[A-Za-z\d.!=/*+-]|_[A-Za-z\d]\^[A-Za-z\d]|[_^][A-Za-z\d]|_(\\\d+l)[[{].*\3[\]}]\^(\\\d+l)[[{].*\4[\]}]|[_^](\\\d+l)[[{].*\5[\]}]/gy).length));
         return retVal;
     }
@@ -397,7 +399,7 @@ document.querySelector("#givens .add").addEventListener("click", e => {
         edit: () => {
             try {
                 var value = parseBrackets(MQ(unitIn).latex());
-                if (!value.match(/^(?:(?:\\frac\\\d+l{)?(?:(?:[a-zA-Z]+|\\deg|\\AA|\\Omega)(?:\^\d|\^\\\d+l{?\d{2,}\\\d+l}?)?(?:\\ )?)+(?:(?<=\\frac.+)\\\d+l}\\\d+l{(?:(?:[a-zA-Z]+|\\deg|\\AA|\\Omega)(?:\^\d|\\\d+l{?\^\d{2,}\\\d+l}?)?(?:\\ )?)+\\\d+l})?)?$/))
+                if (!value.match(/^(?:(?:\\frac\\\d+l{)?(?:(?:[a-zA-Z]+|\\deg ?|\\AA ?|\\Omega ?|\\mu ?)(?:\^\d|\^\\\d+l{?\d{2,}\\\d+l}?)?(?:\\ )?)+(?:(?<=\\frac.+)\\\d+l}\\\d+l{(?:(?:[a-zA-Z]+|\\deg ?|\\AA ?|\\Omega ?|\\mu ?)(?:\^\d|\\\d+l{?\^\d{2,}\\\d+l}?)?(?:\\ )?)+\\\d+l})?)?$/))
                     throw new Error();
                 math.unit(operate(value, "unit"));
                 unitIn.classList.remove("error");

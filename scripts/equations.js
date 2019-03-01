@@ -312,7 +312,7 @@ var data = { // eslint-disable-line no-unused-vars
             }
         },
         {
-            name: "Subsitute and Solve",
+            name: "Substitute and Solve",
             title: "x=#",
             requirements: /(?=^(?:\\Sigma ?|\\Delta ?)?(?:\\vec(\\\d+l){)?(?:[A-Za-z]|\\[A-Za-z]+(?<!Sigma|Delta) ?)(?:\1})?(?:_(?:[A-Za-z0-9]|(\\\d+l){[A-Za-z0-9\\ ]*\2}))?=).*(?:^|=)\\\$s.*\\\$e$/,
             verification: (sel) =>

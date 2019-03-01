@@ -60,7 +60,7 @@ function operate(equation, operation, item) {
         equation = parseBrackets(equation);
         item = parseBrackets(item);
         if (operation != "unit")
-        equation = equation.replace(/((?:\\Sigma ?|\\Delta ?)?(?:\\vec(\\\d+l){)?(?:(?<!\\\d+)[A-Za-z]|\\[A-Za-z]+(?<!Sigma|Delta) ?)(?:\2})?(?:_(?:[A-Za-z0-9]|(\\\d+l){[A-Za-z0-9\\ ]*\3}))?(?:\^(?:[A-Za-z0-9]|(\\\d+l){[A-Za-z0-9\\ ]*\4}))?)/g, " $1");
+            equation = equation.replace(/((?:\\Sigma ?|\\Delta ?)?(?:\\vec(\\\d+l){)?(?:(?<!\\\d+)[A-Za-z]|\\[A-Za-z]+(?<!Sigma|Delta) ?)(?:\2})?(?:_(?:[A-Za-z0-9]|(\\\d+l){[A-Za-z0-9\\ ]*\3}))?(?:\^(?:[A-Za-z0-9]|(\\\d+l){[A-Za-z0-9\\ ]*\4}))?)/g, " $1");
         item = typeof item == "string" ? item.replace(/((?:\\Sigma ?|\\Delta ?)?(?:\\vec(\\\d+l){)?(?:(?<!\\\d+)[A-Za-z]|\\[A-Za-z]+(?<!Sigma|Delta) ?)(?:\2})?(?:_(?:[A-Za-z0-9]|(\\\d+l){[A-Za-z0-9\\ ]*\3}))?(?:\^(?:[A-Za-z0-9]|(\\\d+l){[A-Za-z0-9\\ ]*\4}))?)/g, " $1") : undefined;
         Object.keys(data.substitution).forEach(key => {
             equation = equation.replace(data.substitution[key], key);
@@ -70,6 +70,8 @@ function operate(equation, operation, item) {
             equation = equation.replace(data.symbols[key], key)
             item = typeof item == "string" ? item.replace(data.symbols[key], key) : undefined;
         });
+        if (operation == "unit")
+            equation = equation.replace(/μ /g, "μ")
     }
     if (operation != "latex" && operation != "mathjs" && operation != "simplify" && operation != "eval" && operation != "unit")
         equation = equation.split("=").map(exp => math.simplify(operation.replace("$&", exp).replace("$0", item))).join(" = ");
