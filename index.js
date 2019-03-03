@@ -187,6 +187,8 @@ function operationPopup() {
                 popup.style.transform = "translate(" + (- popupSizer.offsetLeft + equationSolutions.scrollLeft) + "px)";
             else if (popupSizer.offsetLeft + popupSizer.offsetWidth - equationSolutions.scrollLeft >= equationSolutions.offsetWidth)
                 popup.style.transform = "translate(" + (equationSolutions.offsetWidth -popupSizer.offsetLeft - popupSizer.offsetWidth + equationSolutions.scrollLeft) + "px)";
+            else
+                popup.style.transform = "";
             stream.addEventListener("scroll", relocatorY);
 //            mqeq.appendChild(popupSizer);
         }

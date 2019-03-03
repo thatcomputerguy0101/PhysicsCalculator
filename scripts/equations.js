@@ -334,7 +334,7 @@ var data = { // eslint-disable-line no-unused-vars
                         return res;
                     }, {})[variable] || data.constants[variable];
                     return varVal[0] + "\\ \\left[" + varVal[1] + "\\right]";
-                }));
+                })).replace(/](\d)/g, "]\\cdot $1");
                 eq.current = operate(eq.current.replace(/\\left\[|\\right\]/g, " "), "eval");
                 eq.answer = eq.current.split(/ ?= ?/);
                 eq.answer[1] = eq.answer[1].replace("\\right]", "").split("\\left[");
@@ -522,7 +522,7 @@ var data = { // eslint-disable-line no-unused-vars
                         cancel.addEventListener("click", () => miniModal.classList.remove("active"));
                     modalNavigation.appendChild(cancel);
                     
-                    modalTitle.innerHTML = "Subsitute for Sigma"
+                    modalTitle.innerHTML = "Substitute for Sigma";
                     
                     var baseText = unparseBrackets(parseBrackets(sel.replace(/.*\\\$s|\\\$e.*/g, "")).replace(/^\\(?:Sigma|Delta)/, "").replace(/_(\\\d+l){(.*)\1}|_(.)|$/, "_{\\MathQuillMathField{$2$3}}")) ;
                     var input = document.createElement("div");
@@ -556,6 +556,7 @@ var data = { // eslint-disable-line no-unused-vars
                                     newVar.classList.add("portion");
                                 input.appendChild(newVar);
                                 MQ.StaticMath(newVar).innerFields[0].config({handlers: {edit: verify}});
+                                verify()
                             });
                         buttons.appendChild(add);
                         var del = document.createElement("div");
