@@ -59,7 +59,7 @@ function operate(equation, operation, item) {
     if (operation != "latex") {
         equation = parseBrackets(equation);
         item = parseBrackets(item);
-        if (operation != "unit")
+        if (operation != "unit" && operation != "eval")
             equation = equation.replace(/((?:\\Sigma ?|\\Delta ?)?(?:\\vec(\\\d+l){)?(?:(?<!\\\d+)[A-Za-z]|\\[A-Za-z]+(?<!Sigma|Delta) ?)(?:\2})?(?:_(?:[A-Za-z0-9]|(\\\d+l){[A-Za-z0-9\\ ]*\3}))?(?:\^(?:[A-Za-z0-9]|(\\\d+l){[A-Za-z0-9\\ ]*\4}))?)/g, " $1");
         item = typeof item == "string" ? item.replace(/((?:\\Sigma ?|\\Delta ?)?(?:\\vec(\\\d+l){)?(?:(?<!\\\d+)[A-Za-z]|\\[A-Za-z]+(?<!Sigma|Delta) ?)(?:\2})?(?:_(?:[A-Za-z0-9]|(\\\d+l){[A-Za-z0-9\\ ]*\3}))?(?:\^(?:[A-Za-z0-9]|(\\\d+l){[A-Za-z0-9\\ ]*\4}))?)/g, " $1") : undefined;
         Object.keys(data.substitution).forEach(key => {
