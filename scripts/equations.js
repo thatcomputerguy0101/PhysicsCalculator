@@ -219,6 +219,7 @@ var data = { // eslint-disable-line no-unused-vars
         "Δ_": /\\Delta ?/g,
         "Σ_": /\\Sigma ?/g,
         "vec_$2": /\\vec(\\\d+l){(.*)\1}/g,
+        "_$2": /_(\\\d+l){(.*)\1}/g,
         "/": /\\div/g,
         "(($2) / ($4))": /\\frac(\\\d+l){(.*)\1}(\\\d+l){(.*)\3}/g,
         "($2)": /(\\\d+)\((.*)\1\)/g,
@@ -314,7 +315,7 @@ var data = { // eslint-disable-line no-unused-vars
         {
             name: "Substitute and Solve",
             title: "x=#",
-            requirements: /^(?=(\\\$s)?(?:\\Sigma ?|\\Delta ?)?(?:\\vec(\\\d+l){)?(?:[A-Za-z]|\\[A-Za-z]+(?<!Sigma|Delta) ?)(?:\1})?(?:_(?:[A-Za-z0-9]|(\\\d+l){[A-Za-z0-9\\ ]*\2}))?=)(?:.*=)?\\\$s.*\\\$e$/,
+            requirements: /^(?=(?:\\\$s)?(?:\\Sigma ?|\\Delta ?)?(?:\\vec(\\\d+l){)?(?:[A-Za-z]|\\[A-Za-z]+(?<!Sigma|Delta) ?)(?:\1})?(?:_(?:[A-Za-z0-9]|(\\\d+l){[A-Za-z0-9\\ ]*\2}))?=)(?:.*=)?\\\$s.*\\\$e$/,
             verification: (sel) =>
                 parseBrackets(sel.replace(/\\\$[se]/g, "").replace(/.*=/, "")).match(/(?:\\Sigma ?|\\Delta ?)?(?:\\vec(\\\d+l){)?(?:(?<!\\[^\s\\{}()[\]]*)[A-Za-z]|\\[A-Za-z]+(?<!Sigma|Delta|sin|cos|tan|csc|sec|cot|log)(?![A-Za-z]*\\\d+l)(?!=[A-Za-z]*\\\d+l?) ?)(?:\1})?(?:_(?:[A-Za-z0-9]|(\\\d+l){[A-Za-z0-9\\ ]*\2}))?/g).every(variable => {
                     variable = unparseBrackets(variable);

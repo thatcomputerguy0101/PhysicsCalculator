@@ -1,7 +1,11 @@
 /* globals data, math *//* eslint-disable no-unused-vars*/
 
 window.addEventListener("load", () => {
-    math.simplify.rules.splice(math.simplify.rules.findIndex(rule => rule.l == "n*(n1/n2)"), 1, {l: "c*(c1/c2)", r: "(c*c1)/c2"}, {l: "n*(n1/v2)", r: "(n*n1)/v2"}, {l: "n*(v1/n2)", r: "(n*v1)/n2"})
+    math.simplify.rules.splice(math.simplify.rules.findIndex(rule => rule.l == "n*(n1/n2)"), 1, {l: "c*(c1/c2)", r: "(c*c1)/c2"}, {l: "n*(n1/v2)", r: "(n*n1)/v2"}, {l: "n*(v1/n2)", r: "(n*v1)/n2"});
+    math.simplify.rules.push({l: "n / n", r: "1"});
+    math.simplify.rules.push({l: "(n * n1) / n", r: "n1"});
+    math.simplify.rules.push({l: "n / (n * n1)", r: "1 / n1"});
+    math.simplify.rules.push({l: "(n * n1) / (n * n2)", r: "n1 / n2"});
 //    math.simplify.rules.splice(math.simplify.rules.findIndex(rule => rule.l == "-(c/v)"), 0, {l: "n+-n1", r: "n-n1"})
 });
 
@@ -92,8 +96,10 @@ function operate(equation, operation, item) {
                         return data.antisubstitution[node.name];
                     else if (data.symbols[node.name])
                         return data.symbols[node.name].source.replace(/\\(.)/g, "$1");
-                    else if (node.name.match(/vec_|[ΔΣ]_/))
-                        return node.name.replace(/vec_([^ _]*)/, "\\vec{$1}").replace(/Δ_/, "\\Delta ").replace(/Σ_/, "\\Sigma ");
+                    else if (node.name.match(/vec_|[ΔΣ]_|_\w\w/))
+                        return node.name.replace(/vec_([^ _]*)/, "\\vec{$1}").replace(/Δ_/, "\\Delta ").replace(/Σ_/, "\\Sigma ").replace(/_([^ ]{2,})/, "_{$1}");
+                    else
+                        return node.name
                 }
                 else if (node.type == "ConstantNode") {
                     return data.antisubstitution[node.value]
@@ -113,7 +119,7 @@ function operate(equation, operation, item) {
                 }
             }
         })).join(" = ");
-        equation = unparseBrackets(parseBrackets(equation).replace(/\\mathrm(\\\d+l){(.*)\1}/g, "$2"))
+//        equation = unparseBrackets(parseBrackets(equation).replace(/\\mathrm(\\\d+l){(.*)\1}/g, "$2"))
         if (operation == "eval")
             equation = equation.replace("=", "=" + math.parse(value).toString(3) + "\\left[") + "\\right]";
 //        Object.keys(data.antisubsitution).forEach(key => {equation = equation.replace(data.antisubstitution[key], key)})
