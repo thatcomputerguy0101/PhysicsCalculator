@@ -264,7 +264,7 @@ document.querySelector("#givens .add").addEventListener("click", e => {
         done.innerHTML = "Done";
         done.addEventListener("click", () => {
             modal.classList.remove("active");
-            confirmButtion.dispatchEvent(new MouseEvent("click"));
+            confirmButton.dispatchEvent(new MouseEvent("click"));
             givenList.innerHTML = "";
             givenDisplay.querySelectorAll(".given").forEach(given => givenList.appendChild(given));
         });
