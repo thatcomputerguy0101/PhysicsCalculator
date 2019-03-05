@@ -345,7 +345,7 @@ document.querySelector("#givens .add").addEventListener("click", e => {
                                     if (ignore == name)
                                         ignore = undefined;
                                     delete problemSet.problems[currentProblem].givens[name];
-                                    givenDisplay.removeChild(given);
+                                    given.remove();
                                 }
                             });
                         given.appendChild(x);
