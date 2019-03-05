@@ -6,7 +6,6 @@ window.addEventListener("load", () => {
     math.simplify.rules.push({l: "(n * n1) / n", r: "n1"});
     math.simplify.rules.push({l: "n / (n * n1)", r: "1 / n1"});
     math.simplify.rules.push({l: "(n * n1) / (n * n2)", r: "n1 / n2"});
-//    math.simplify.rules.splice(math.simplify.rules.findIndex(rule => rule.l == "-(c/v)"), 0, {l: "n+-n1", r: "n-n1"})
 });
 
 var arithmetic = {
@@ -67,8 +66,16 @@ function operate(equation, operation, item) {
             equation = equation.replace(/((?:\\Sigma ?|\\Delta ?)?(?:\\vec(\\\d+l){)?(?:(?<!\\\d+)[A-Za-z]|\\[A-Za-z]+(?<!Sigma|Delta) ?)(?:\2})?(?:_(?:[A-Za-z0-9]|(\\\d+l){[A-Za-z0-9\\ ]*\3}))?(?:\^(?:[A-Za-z0-9]|(\\\d+l){[A-Za-z0-9\\ ]*\4}))?)/g, " $1");
         item = typeof item == "string" ? item.replace(/((?:\\Sigma ?|\\Delta ?)?(?:\\vec(\\\d+l){)?(?:(?<!\\\d+)[A-Za-z]|\\[A-Za-z]+(?<!Sigma|Delta) ?)(?:\2})?(?:_(?:[A-Za-z0-9]|(\\\d+l){[A-Za-z0-9\\ ]*\3}))?(?:\^(?:[A-Za-z0-9]|(\\\d+l){[A-Za-z0-9\\ ]*\4}))?)/g, " $1") : undefined;
         Object.keys(data.substitution).forEach(key => {
-            equation = equation.replace(data.substitution[key], key);
-            item = typeof item == "string" ? item.replace(data.substitution[key], key) : undefined;
+            if (!data.substitution[key].multiline) {
+                equation = equation.replace(data.substitution[key], key);
+                item = typeof item == "string" ? item.replace(data.substitution[key], key) : undefined;
+            }
+            else {
+                while (equation.match(data.substitution[key]) || typeof item == "string" && item.match(data.substitution[key])) {
+                    equation = equation.replace(data.substitution[key], key);
+                    item = typeof item == "string" ? item.replace(data.substitution[key], key) : undefined;
+                }
+            }
         });
         Object.keys(data.symbols).forEach(key => {
             equation = equation.replace(data.symbols[key], key)

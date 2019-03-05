@@ -1,4 +1,4 @@
-/* globals problemSet, currentProblem, operate, miniModal, MQ, parseBrackets, unparseBrackets */
+/* globals problemSet, currentProblem, operate, miniModal, MQ, parseBrackets, unparseBrackets, math */
 
 var data = { // eslint-disable-line no-unused-vars
     equations: {
@@ -221,8 +221,8 @@ var data = { // eslint-disable-line no-unused-vars
         "vec_$2": /\\vec(\\\d+l){(.*)\1}/g,
         "_$2": /_(\\\d+l){(.*)\1}/g,
         "/": /\\div/g,
-        "(($2) / ($4))": /\\frac(\\\d+l){(.*)\1}(\\\d+l){(.*)\3}/g,
-        "($2)": /(\\\d+)\((.*)\1\)/g,
+        "(($2) / ($4))": /\\frac(\\\d+l){(.*)\1}(\\\d+l){(.*)\3}/gm,
+        "($2)": /(\\\d+)\((.*)\1\)/gm, // m triggers multimatch, not multiline
         "": /\\d+(?=[(){}[\]|])/g,
         " ": /\\ /g,
     },
@@ -339,6 +339,7 @@ var data = { // eslint-disable-line no-unused-vars
                 eq.current = operate(eq.current.replace(/\\left\[|\\right\]/g, " "), "eval");
                 eq.answer = eq.current.split(/ ?= ?/);
                 eq.answer[1] = eq.answer[1].replace("\\right]", "").split("\\left[");
+                eq.history.forEach((tex, i) => eq.history[i] = tex.replace(/\d+.?\d*/g, (num) => math.format(parseFloat(num), 3)));
             }
         },
         {
