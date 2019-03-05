@@ -40,10 +40,10 @@ var data = { // eslint-disable-line no-unused-vars
             "P=\\frac{W}{\\Delta t}"
         ],
         "Thermodynamics": [
-            "T_C=\\frac{5}{9}\\left(T_F-32]\\right)",
-            "T_K=T_C+273",
-            "\\Delta T_C=\\Delta T_K",
-            "\\Delta T_C=\\frac{5}{9}\\Delta T_F",
+//            "T_C=\\frac{5}{9}\\left(T_F-32\\right)",
+//            "T_K=T_C+273",
+//            "\\Delta T_C=\\Delta T_K",
+//            "\\Delta T_C=\\frac{5}{9}\\Delta T_F",
             "PV=nRT",
             "\\frac{P_1V_1}{T_1}=\\frac{P_2V_2}{T_2}",
             "Q=mc_p\\Delta T",
@@ -314,7 +314,7 @@ var data = { // eslint-disable-line no-unused-vars
         {
             name: "Substitute and Solve",
             title: "x=#",
-            requirements: /(?=^(?:\\Sigma ?|\\Delta ?)?(?:\\vec(\\\d+l){)?(?:[A-Za-z]|\\[A-Za-z]+(?<!Sigma|Delta) ?)(?:\1})?(?:_(?:[A-Za-z0-9]|(\\\d+l){[A-Za-z0-9\\ ]*\2}))?=).*(?:^|=)\\\$s.*\\\$e$/,
+            requirements: /^(?=(\\\$s)?(?:\\Sigma ?|\\Delta ?)?(?:\\vec(\\\d+l){)?(?:[A-Za-z]|\\[A-Za-z]+(?<!Sigma|Delta) ?)(?:\1})?(?:_(?:[A-Za-z0-9]|(\\\d+l){[A-Za-z0-9\\ ]*\2}))?=)(?:.*=)?\\\$s.*\\\$e$/,
             verification: (sel) =>
                 parseBrackets(sel.replace(/\\\$[se]/g, "").replace(/.*=/, "")).match(/(?:\\Sigma ?|\\Delta ?)?(?:\\vec(\\\d+l){)?(?:(?<!\\[^\s\\{}()[\]]*)[A-Za-z]|\\[A-Za-z]+(?<!Sigma|Delta|sin|cos|tan|csc|sec|cot|log)(?![A-Za-z]*\\\d+l)(?!=[A-Za-z]*\\\d+l?) ?)(?:\1})?(?:_(?:[A-Za-z0-9]|(\\\d+l){[A-Za-z0-9\\ ]*\2}))?/g).every(variable => {
                     variable = unparseBrackets(variable);
