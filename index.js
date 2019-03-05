@@ -72,7 +72,7 @@ function equation(latex) {
                         equationSpacer.style.height = "calc(50% - 2.5px - (" + equationSpan.getBoundingClientRect().height + "px / 2)";
 //                        equationStream.scrollTo({top: equationStream.height, left: 0, behavior: "smooth"});
                         equationStream.scrollTop = equationStream.scrollHeight;
-                        return eqs.push(latex);
+                        return eqs.push(MQ(equationSpan).latex());
                     };
                 case "map":
                     return (callback, context) => {
@@ -263,7 +263,8 @@ document.querySelector("#givens .add").addEventListener("click", e => {
         done.classList.add("primary");
         done.innerHTML = "Done";
         done.addEventListener("click", () => {
-            modal.classList.remove("active")
+            modal.classList.remove("active");
+            confirmButtion.dispatchEvent(new MouseEvent("click"));
             givenList.innerHTML = "";
             givenDisplay.querySelectorAll(".given").forEach(given => givenList.appendChild(given));
         });
