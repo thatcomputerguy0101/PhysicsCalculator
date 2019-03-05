@@ -569,6 +569,74 @@ document.querySelector("#problems .add").addEventListener("click", e => {
 //    problemSet.problems.push(new problem());
 });
 
+document.querySelector("#tutorialButton").addEventListener("click", e => {
+    e.preventDefault();
+    modal.classList.add("active");
+    modal.classList.add("tutorial");
+    var modalNavigation = modal.querySelector(".navigation");
+    var modalTitle = modal.querySelector(".title");
+    var modalContent = modal.querySelector(".content");
+    
+    var index = 0, slides = [
+        [
+            "Creating Givens",
+            "Givens",
+            "<ol><li>Start by clicking the plus button at the bottom of the left pane.<li>Then input the name and value of the given<ul><li>The first box is for the name, the second is for the value, and the third is for the number</ul><li>All inputs are verified before you're allowed to create a given<li>Once you are done with your variable, click the checkmark to make it a given<li>If you made a mistake, hover over a given to edit or delete it.</ol>"
+        ],
+        [
+            "Superscripts and Subscripts",
+            "SupSub",
+            "<ul><li>Superscripts can be entered by typeing a caret (^)<li>Subscripts can be entered by typing an underscore(_)<li>Greek letters can be entered by typing a backslash (\\) followed by the name of the letter, such as \\pi; the first letter indicates the case<li>Other commands can also be entered by typing a backslash followed by the name of the command, such as \\sqrt</ul>"
+        ],
+        [
+            "Equation Selection",
+            "Equations",
+            "<ul><li>The pre-programmed equations are sorted by category because of their volume</ul><ol><li>The equation menu will be displayed by default when no equations are on the screen, but the plus button in the center pane can be used to add another one<li>Click on the triangle to the right of the category to expand or retract the category<li>Click on an equation to add it to your workspace<li>Accidental or unwanted equations can be removed with the X above the equation</ol>"
+        ],
+        [
+            "Algebraic Manipulation",
+            "Algebra",
+            "<ol><li>After an equation is selected, drag your cursor over part of the equation to select it<li>Then click one of the operations to manipulate the equation; hover over the operation for more detail<li>Some operations will bring up a popup for more information; others will execute immediately.</ol>"
+        ],
+        [
+            "Preparing to Solve",
+            "Solving",
+            "<ul><li>Once you have solved for a variable, you can subsitute in the values for the numbers and have the calculator sove it out<li>To solve, there must be one variable on the left side of the equation and only known variables on the right side<li>Solving is preformed as an operation once the other criteria are met; just select the whole equation or the second half to subsitute<li>To help you understand, solving is a two-part operation<ol><li>First, all the numbers and units are subsituted in<li>Then, the equation is evaluated to show a final answer</ol></ul>"
+        ]
+    ];
+
+    var next = document.createElement("div");
+        next.classList.add("primary");
+        next.innerHTML = "Next";
+        next.addEventListener("click", () => {
+            index ++;
+            index %= slides.length;
+            
+            modalTitle.innerHTML = slides[index][0];
+            modalContent.innerHTML = "<span><img src='images/tutorials/" + slides[index][1] + ".png'></span>" + slides[index][2];
+        });
+    modalNavigation.appendChild(next);
+    var previous = document.createElement("div");
+        previous.classList.add("primary")
+        previous.innerHTML = "Previous";
+        previous.addEventListener("click", () => {
+            index += slides.length - 1;
+            index %= slides.length;
+            
+            modalTitle.innerHTML = slides[index][0];
+            modalContent.innerHTML = "<span><img src='images/tutorials/" + slides[index][1] + ".png'></span>" + slides[index][2];
+        });
+    modalNavigation.appendChild(previous);
+    var close = document.createElement("div");
+        close.classList.add("secondary");
+        close.innerHTML = "Close";
+        close.addEventListener("click", () => {modal.classList.remove("active"); modal.classList.remove("tutorial")});
+    modalNavigation.appendChild(close);
+    
+    modalTitle.innerHTML = slides[index][0];
+    modalContent.innerHTML = "<span><img src='images/tutorials/" + slides[index][1] + ".png'></span>" + slides[index][2];
+})
+
 var problemSet = {
     customEquations: [],
     problems: []

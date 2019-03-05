@@ -296,6 +296,19 @@ h2 {
     font-size: 20px !important;
 }
 
+.tutorial span {
+    display: block;
+    position: relative;
+    flex-grow: 1;
+}
+
+.tutorial img {
+    height: 100%;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
+}
+
 #givens {
     display: block;
     padding: 5px 3px 5px 4.5px;
@@ -501,6 +514,14 @@ h2 {
 
 #miniModal .expressionInput > .mq-root-block {
     overflow: visible;
+}
+
+#tutorialButton {
+    position: absolute;
+    top: 5px;
+    right: 7px;
+    font: 20px sans-serif;
+    color: #666;
 }
 
 ::-webkit-scrollbar {
