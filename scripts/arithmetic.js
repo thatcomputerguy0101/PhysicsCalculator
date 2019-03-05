@@ -113,6 +113,7 @@ function operate(equation, operation, item) {
                 }
             }
         })).join(" = ");
+        equation = unparseBrackets(parseBrackets(equation).replace(/\\mathrm(\\\d+l){(.*)\1}/g, "$2"))
         if (operation == "eval")
             equation = equation.replace("=", "=" + math.parse(value).toString(3) + "\\left[") + "\\right]";
 //        Object.keys(data.antisubsitution).forEach(key => {equation = equation.replace(data.antisubstitution[key], key)})
