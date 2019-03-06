@@ -343,7 +343,7 @@ var data = { // eslint-disable-line no-unused-vars
                 eq.current = operate(eq.current.replace(/\\left\[|\\right\]/g, " "), "eval");
                 eq.answer = eq.current.split(/ ?= ?/);
                 eq.answer[1] = eq.answer[1].replace("\\right]", "").split("\\left[");
-                eq.history.forEach((tex, i) => eq.history[i] = tex.replace(/\d+\.?\d*/g, (num) => math.format(parseFloat(num), 3)));
+                eq.history.forEach((tex, i) => eq.history[i] = tex.replace(/\d+\.?\d*/g, (num) => math.format(parseFloat(num), 3).replace(/e+?(-?\d+)/, "\\times 10^{$1}")));
             }
         },
         {
