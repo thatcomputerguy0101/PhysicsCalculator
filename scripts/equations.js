@@ -530,7 +530,7 @@ var data = { // eslint-disable-line no-unused-vars
                     
                     modalTitle.innerHTML = "Substitute for Sigma";
                     
-                    var baseText = unparseBrackets(parseBrackets(sel.replace(/.*\\\$s|\\\$e.*/g, "")).replace(/^\\(?:Sigma|Delta)/, "").replace(/_(\\\d+l){(.*)\1}|_(.)|$/, "_{\\MathQuillMathField{$2$3}}")) ;
+                    var baseText = unparseBrackets(parseBrackets(sel.replace(/.*\\\$s|\\\$e.*/g, "")).replace(/^\\(?:Sigma|Delta)/, "").replace(/_(\\\d+l){(.*)\1}|_(.)|(?<=\\frac\\\d+l{1\\\d+l}(\\\d+l){.*)(?=\4})|$/, "_{\\MathQuillMathField{$2$3}}")) ;
                     var input = document.createElement("div");
                         input.classList.add("expressionInput")
                         input.addEventListener("click", e => {
