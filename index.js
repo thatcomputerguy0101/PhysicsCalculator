@@ -577,6 +577,8 @@ document.querySelector("#tutorialButton").addEventListener("click", e => {
     var modalTitle = modal.querySelector(".title");
     var modalContent = modal.querySelector(".content");
     
+    modalNavigation.innerHTML = "";
+    
     var index = 0, slides = [
         [
             "Creating Givens",
