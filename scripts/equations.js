@@ -315,9 +315,9 @@ var data = { // eslint-disable-line no-unused-vars
         {
             name: "Substitute and Solve",
             title: "x=#",
-            requirements: /^(?=(?:\\\$s)?(?:\\Sigma ?|\\Delta ?)?(?:\\vec(\\\d+l){)?(?:[A-Za-z]|\\[A-Za-z]+(?<!Sigma|Delta) ?)(?:\1})?(?:_(?:[A-Za-z0-9]|(\\\d+l){[A-Za-z0-9\\ ]*\2}))?=)(?:.*=)?\\\$s.*\\\$e$/,
+            requirements: /^(?=.*(?:^(?:\\\$s)?|=)(?:\\Sigma ?|\\Delta ?)?(?:\\vec(\\\d+l){)?(?:[A-Za-z]|\\[A-Za-z]+(?<!Sigma|Delta) ?)(?:\1})?(?:_(?:[A-Za-z0-9]|(\\\d+l){[A-Za-z0-9\\ ]*\2}))?(?:=|(?:\\\$e)?$))(?:.*=)?\\\$s.*\\\$e(?:=.*)?$/,
             verification: (sel) =>
-                parseBrackets(sel.replace(/\\\$[se]/g, "").replace(/.*=/, "")).match(/(?:\\Sigma ?|\\Delta ?)?(?:\\vec(\\\d+l){)?(?:(?<!\\[^\s\\{}()[\]]*)[A-Za-z]|\\[A-Za-z]+(?<!Sigma|Delta|sin|cos|tan|csc|sec|cot|log)(?![A-Za-z]*\\\d+l)(?!=[A-Za-z]*\\\d+l?) ?)(?:\1})?(?:_(?:[A-Za-z0-9]|(\\\d+l){[A-Za-z0-9\\ ]*\2}))?/g).every(variable => {
+                parseBrackets(sel.replace(/\\\$[se]/g, "").replace(/(?:^|=)(?:\\Sigma ?|\\Delta ?)?(?:\\vec(\\\d+l){)?(?:[A-Za-z]|\\[A-Za-z]+(?<!Sigma|Delta) ?)(?:\1})?(?:_(?:[A-Za-z0-9]|(\\\d+l){[A-Za-z0-9\\ ]*\2}))?(?:=|$)/, "")).match(/(?:\\Sigma ?|\\Delta ?)?(?:\\vec(\\\d+l){)?(?:(?<!\\[^\s\\{}()[\]]*)[A-Za-z]|\\[A-Za-z]+(?<!Sigma|Delta|sin|cos|tan|csc|sec|cot|log)(?![A-Za-z]*\\\d+l)(?!=[A-Za-z]*\\\d+l?) ?)(?:\1})?(?:_(?:[A-Za-z0-9]|(\\\d+l){[A-Za-z0-9\\ ]*\2}))?/g).every(variable => {
                     variable = unparseBrackets(variable);
                     return problemSet.problems[currentProblem].givens[variable] || problemSet.problems[currentProblem].equations.reduce((res, eq) => {
                         if (eq.answer[0])
@@ -326,6 +326,10 @@ var data = { // eslint-disable-line no-unused-vars
                     }, {})[variable] || data.constants[variable];
                 }),
             operation: (sel, eq) => {
+                if (sel.match(/=(?:\\Sigma ?|\\Delta ?)?(?:\\vec(\\\d+l){)?(?:[A-Za-z]|\\[A-Za-z]+(?<!Sigma|Delta) ?)(?:\1})?(?:_(?:[A-Za-z0-9]|(\\\d+l){[A-Za-z0-9\\ ]*\2}))?$/)) {
+                    data.operations.find(op => op.name == "Flip Equation").operation(sel, eq);
+                    sel = sel.split("=").reverse().join("=");
+                }
                 var start = sel.replace(/\\\$[se]/g, "");
                 eq.current = start.replace(/=.*/, "=") + unparseBrackets(parseBrackets(start.replace(/.*=/, "")).replace(/(?:\\Sigma ?|\\Delta ?)?(?:\\vec(\\\d+l){)?(?:(?<!\\[^\s\\{}()[\]]*)[A-Za-z]|\\[A-Za-z]+(?<!Sigma|Delta|sin|cos|tan|csc|sec|cot|log)(?![A-Za-z]*\\\d+l)(?!=[A-Za-z]*\\\d+l?) ?)(?:\1})?(?:_(?:[A-Za-z0-9]|(\\\d+l){[A-Za-z0-9\\ ]*\2}))?/g, variable => {
                     variable = unparseBrackets(variable);
