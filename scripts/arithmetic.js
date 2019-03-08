@@ -113,7 +113,7 @@ function operate(equation, operation, item) {
                 }
                 else if (node.type == "OperatorNode") {
                     if (node.fn == "multiply" && !(node.args[0].type == "ConstantNode" && node.args[1].type == "ConstantNode"))
-                        return node.args[0].toTex(options) + node.args[1].toTex(options);
+                        return node.args[0].toTex({parenthesis: "keep", handler: options.handler}) + node.args[1].toTex({parenthesis: "keep", handler: options.handler});
                     else if (node.fn == "pow" && node.args[1].type == "ParenthesisNode" && node.args[1].content.type == "OperatorNode" && node.args[1].content.fn == "divide" && node.args[1].content.args[0].type == "ConstantNode" && node.args[1].content.args[0].value == 1) {
                         if (node.args[1].content.args[1].value == 2)
                             return "\\sqrt{" + node.args[0].toTex(options) + "}";
