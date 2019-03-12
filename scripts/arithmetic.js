@@ -2,10 +2,7 @@
 
 window.addEventListener("load", () => {
     math.simplify.rules.splice(math.simplify.rules.findIndex(rule => rule.l == "n*(n1/n2)"), 1, {l: "c*(c1/c2)", r: "(c*c1)/c2"}, {l: "n*(n1/v2)", r: "(n*n1)/v2"}, {l: "n*(v1/n2)", r: "(n*v1)/n2"});
-    math.simplify.rules.push({l: "n / n", r: "1"});
-    math.simplify.rules.push({l: "(n * n1) / n", r: "n1"});
-    math.simplify.rules.push({l: "n / (n * n1)", r: "1 / n1"});
-    math.simplify.rules.push({l: "(n * n1) / (n * n2)", r: "n1 / n2"});
+    math.simplify.rules.push({l: "n / n", r: "1"}, {l: "(n * n1) / n", r: "n1"}, {l: "n / (n * n1)", r: "1 / n1"}, {l: "(n * n1) / (n * n2)", r: "n1 / n2"}, {l: "(-n) / n1", r: "-(n / n1)"}, {l: "n + (-n1 * n2)", r: "n - n1 * n2"})
 });
 
 var arithmetic = {

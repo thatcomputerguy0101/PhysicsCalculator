@@ -1,4 +1,4 @@
-var pointers = []
+var pointers = [];
 
 if (!window.PointerEvent) { //detection if pointer events are supported
     var pointerEvent, idShift;
