@@ -522,8 +522,8 @@ document.querySelector("#equations .add").addEventListener("click", e => {
     Array.prototype.forEach.call( document.querySelectorAll("#equationSelection .latex"), (elm) => {
         var math = MQ.StaticMath(elm);
         elm.addEventListener("click", () => {
-           var eq;
-           problemSet.problems[currentProblem].equations.push(eq = new equation(math.latex().match(/(.*?)(?:\\text{.*}|$)/)[1]));
+            var eq;
+            problemSet.problems[currentProblem].equations.push(eq = new equation(math.latex().match(/(.*?)(?:\\text{.*}|$)/)[1]));
             var equationStream = document.createElement("div");
                 equationStream.classList.add("stream");
                 equationStream.equation = eq;
@@ -588,7 +588,7 @@ document.querySelector("#tutorialButton").addEventListener("click", e => {
         [
             "Superscripts and Subscripts",
             "SupSub",
-            "<ul><li>Superscripts can be entered by typeing a caret (^)<li>Subscripts can be entered by typing an underscore(_)<li>Greek letters can be entered by typing a backslash (\\) followed by the name of the letter, such as \\pi; the first letter indicates the case<li>Other commands can also be entered by typing a backslash followed by the name of the command, such as \\sqrt</ul>"
+            "<ul><li>Superscripts can be entered by typing a caret (^)<li>Subscripts can be entered by typing an underscore(_)<li>Greek letters can be entered by typing a backslash (\\) followed by the name of the letter, such as \\pi; the first letter indicates the case<li>Other commands can also be entered by typing a backslash followed by the name of the command, such as \\sqrt</ul>"
         ],
         [
             "Equation Selection",
@@ -603,7 +603,7 @@ document.querySelector("#tutorialButton").addEventListener("click", e => {
         [
             "Preparing to Solve",
             "Solving",
-            "<ul><li>Once you have solved for a variable, you can subsitute in the values for the numbers and have the calculator sove it out<li>To solve, there must be one variable on the left side of the equation and only known variables on the right side<li>Solving is preformed as an operation once the other criteria are met; just select the whole equation or the second half to subsitute<li>To help you understand, solving is a two-part operation<ol><li>First, all the numbers and units are subsituted in<li>Then, the equation is evaluated to show a final answer</ol></ul>"
+            "<ul><li>Once you have solved for a variable, you can substitute in the values for the numbers and have the calculator solve it out<li>To solve, there must be one variable on the left side of the equation and only known variables on the right side<li>Solving is preformed as an operation once the other criteria are met; just select the whole equation or the second half to substitute<li>To help you understand, solving is a two-part operation<ol><li>First, all the numbers and units are substituted in<li>Then, the equation is evaluated to show a final answer</ol></ul>"
         ]
     ];
 
