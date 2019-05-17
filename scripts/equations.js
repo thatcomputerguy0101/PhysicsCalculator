@@ -88,9 +88,9 @@ var data = { // eslint-disable-line no-unused-vars
             "V=\\frac{kQ}{r}",
             "\\Delta V=\\frac{W}{q}=\\frac{\\Delta E_ep}{q}",
             "\\Delta E_ep=-\\Delta E_k",
-            "V=IR",
+            "\\Delta V=IR",
             "I=\\frac{q}{\\Delta t}",
-            "P=IV",
+            "P=I\\Delta V",
             "R_{eq}=\\Sigma R",
             "\\frac{1}{R_{eq}}=\\Sigma\\frac{1}{R}"
         ],
