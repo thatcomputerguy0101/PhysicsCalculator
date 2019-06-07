@@ -225,7 +225,7 @@ function factory (type, config, load, typed) {
    *
    * @memberof SparseMatrix
    * @param {Index} index
-   * @param {Array | Maytrix | *} [replacement]
+   * @param {Array | Matrix | *} [replacement]
    * @param {*} [defaultValue=0]      Default value, filled in on new entries when
    *                                  the matrix is resized. If not provided,
    *                                  new matrix elements will be filled with zeros.
@@ -444,7 +444,7 @@ function factory (type, config, load, typed) {
    * Replace a single element in the matrix.
    * @memberof SparseMatrix
    * @param {number[]} index   Zero-based index
-   * @param {*} value
+   * @param {*} v
    * @param {*} [defaultValue]        Default value, filled in on new entries when
    *                                  the matrix is resized. If not provided,
    *                                  new matrix elements will be set to zero.
@@ -876,29 +876,35 @@ function factory (type, config, load, typed) {
       // k0 <= k < k1 where k0 = _ptr[j] && k1 = _ptr[j+1]
       const k0 = matrix._ptr[j]
       const k1 = matrix._ptr[j + 1]
-      // row pointer
-      let p = minRow
-      // loop k within [k0, k1[
-      for (let k = k0; k < k1; k++) {
-        // row index
-        const i = matrix._index[k]
-        // check i is in range
-        if (i >= minRow && i <= maxRow) {
-          // zero values
-          if (!skipZeros) {
-            for (let x = p; x < i; x++) { invoke(0, x - minRow, j - minColumn) }
+
+      if (skipZeros) {
+        // loop k within [k0, k1[
+        for (let k = k0; k < k1; k++) {
+          // row index
+          const i = matrix._index[k]
+          // check i is in range
+          if (i >= minRow && i <= maxRow) {
+            // value @ k
+            invoke(matrix._values[k], i - minRow, j - minColumn)
           }
-          // value @ k
-          invoke(matrix._values[k], i - minRow, j - minColumn)
         }
-        // update pointer
-        p = i + 1
-      }
-      // zero values
-      if (!skipZeros) {
-        for (let y = p; y <= maxRow; y++) { invoke(0, y - minRow, j - minColumn) }
+      } else {
+        // create a cache holding all defined values
+        const values = {}
+        for (let k = k0; k < k1; k++) {
+          const i = matrix._index[k]
+          values[i] = matrix._values[k]
+        }
+
+        // loop over all rows (indexes can be unordered so we can't use that),
+        // and either read the value or zero
+        for (let i = minRow; i <= maxRow; i++) {
+          const value = (i in values) ? values[i] : 0
+          invoke(value, i - minRow, j - minColumn)
+        }
       }
     }
+
     // store number of values in ptr
     ptr.push(values.length)
     // return sparse matrix
@@ -931,26 +937,30 @@ function factory (type, config, load, typed) {
       // k0 <= k < k1 where k0 = _ptr[j] && k1 = _ptr[j+1]
       const k0 = this._ptr[j]
       const k1 = this._ptr[j + 1]
-      // column pointer
-      let p = 0
-      // loop k within [k0, k1[
-      for (let k = k0; k < k1; k++) {
-        // row index
-        const i = this._index[k]
-        // check we need to process zeros
-        if (!skipZeros) {
-          // zero values
-          for (let x = p; x < i; x++) { callback(0, [x, j], me) } // eslint-disable-line standard/no-callback-literal
+
+      if (skipZeros) {
+        // loop k within [k0, k1[
+        for (let k = k0; k < k1; k++) {
+          // row index
+          const i = this._index[k]
+
+          // value @ k
+          callback(this._values[k], [i, j], me)
         }
-        // value @ k
-        callback(this._values[k], [i, j], me)
-        // update pointer
-        p = i + 1
-      }
-      // check we need to process zeros
-      if (!skipZeros) {
-        // zero values
-        for (let y = p; y < rows; y++) { callback(0, [y, j], me) } // eslint-disable-line standard/no-callback-literal
+      } else {
+        // create a cache holding all defined values
+        const values = {}
+        for (let k = k0; k < k1; k++) {
+          const i = this._index[k]
+          values[i] = this._values[k]
+        }
+
+        // loop over all rows (indexes can be unordered so we can't use that),
+        // and either read the value or zero
+        for (let i = 0; i < rows; i++) {
+          const value = (i in values) ? values[i] : 0
+          callback(value, [i, j], me)
+        }
       }
     }
   }
@@ -1149,6 +1159,7 @@ function factory (type, config, load, typed) {
    * @param {Array} size                       The matrix size.
    * @param {number | Array | Matrix } value   The values for the diagonal.
    * @param {number | BigNumber} [k=0]         The kth diagonal where the vector will be filled in.
+   * @param {number} [defaultValue]            The default value for non-diagonal
    * @param {string} [datatype]                The Matrix datatype, values must be of this datatype.
    *
    * @returns {SparseMatrix}
