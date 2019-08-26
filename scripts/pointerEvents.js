@@ -3,7 +3,7 @@ var pointers = [];
 if (!window.PointerEvent) { //detection if pointer events are supported
     var pointerEvent, idShift;
     var typeConversion = {start: "down", end: "up", move: "move"}, buttons = 0;
-  
+    
     window.addEventListener("mousedown", simulatePointer, {capture: true});
     window.addEventListener("mouseup", simulatePointer, {capture: true});
     window.addEventListener("mousemove", simulatePointer, {capture: true});

@@ -1,4 +1,4 @@
-/* globals MathQuill, math, data, givens, equations, equationSolutions, equationSelection, modal, operate, parseBrackets, getOperations, popup, popupSizer Proxy */
+/* globals MathQuill, math, data, givens, equations, equationSolutions, equationSelection, problems, modal, operate, parseBrackets, getOperations, popup, popupSizer, Proxy */
 document.querySelectorAll("[id]").forEach(elem => window[elem.id] = elem);
 
 var MQ = MathQuill.getInterface(2);
@@ -42,8 +42,14 @@ var ignore, timer = 0, mouseState = false, popupOffset = 0, activeStream, select
 
 function problem() {
     var problemDiv = document.createElement("div");
-    problemDiv.classList.add("prolem");
-    problemDiv.innerHTML = "<i>Equation</i>";
+        problemDiv.classList.add("problem");
+        var problemDisplay = document.createElement("div");
+            problemDisplay.innerHTML = "\\mathit{New\\ Equation}";
+            problemDisplay.addEventListener("click", () => {MQ(problemDisplay).blur(), loadProblem(Array.prototype.indexOf.call(problems.querySelector(".list").children, problemDiv))})
+            problemDisplay.addEventListener("dblclick", () => {MQ(problemDisplay).select()})
+        problemDiv.appendChild(problemDisplay);
+    problems.querySelector(".list").appendChild(problemDiv);
+    MQ.MathField(problemDisplay);
     document.querySelector("#equations .add").dispatchEvent(new MouseEvent("click"));
     currentProblem = problemSet.problems.length;
 }
@@ -566,7 +572,9 @@ document.querySelector("#equations .cancel").addEventListener("click", () => {
 
 document.querySelector("#problems .add").addEventListener("click", e => {
     e.preventDefault();
-//    problemSet.problems.push(new problem());
+    equationSolutions.querySelector(".solutions").innerHTML = "";
+    givens.querySelector(".list").innerHTML = "";
+    problemSet.problems.push(new problem());
 });
 
 document.querySelector("#tutorialButton").addEventListener("click", e => {

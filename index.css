@@ -420,6 +420,22 @@ h2 {
     cursor: col-resize;
 }
 
+#problems .problem {
+    padding: 5px;
+}
+
+#problems .problem:not(:last-of-type) {
+    border-bottom: solid #888 2px;
+}
+
+#problems .problem > * {
+    border: none;
+}
+
+#problems .problem i {
+    color: #555;
+}
+
 #modal, #miniModal {
     position: absolute;
     width: 100%;
