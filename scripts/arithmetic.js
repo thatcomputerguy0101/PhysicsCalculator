@@ -59,7 +59,7 @@ function operate(equation, operation, item) {
     if (operation != "latex") {
         equation = parseBrackets(equation);
         item = parseBrackets(item);
-        if (operation != "unit" && operation != "eval")
+        if (operation != "unit" && operation != "evaluate")
             equation = equation.replace(/((?:\\Sigma ?|\\Delta ?)?(?:\\vec(\\\d+l){)?(?:(?<!\\\d+)[A-Za-z]|\\[A-Za-z]+(?<!Sigma|Delta) ?)(?:\2})?(?:_(?:[A-Za-z0-9]|(\\\d+l){[A-Za-z0-9\\ ]*\3}))?(?:\^(?:[A-Za-z0-9]|(\\\d+l){[A-Za-z0-9\\ ]*\4}))?)/g, " $1");
         item = typeof item == "string" ? item.replace(/((?:\\Sigma ?|\\Delta ?)?(?:\\vec(\\\d+l){)?(?:(?<!\\\d+)[A-Za-z]|\\[A-Za-z]+(?<!Sigma|Delta) ?)(?:\2})?(?:_(?:[A-Za-z0-9]|(\\\d+l){[A-Za-z0-9\\ ]*\3}))?(?:\^(?:[A-Za-z0-9]|(\\\d+l){[A-Za-z0-9\\ ]*\4}))?)/g, " $1") : undefined;
         Object.keys(data.substitution).forEach(key => {
@@ -81,14 +81,14 @@ function operate(equation, operation, item) {
         if (operation == "unit")
             equation = equation.replace(/μ /g, "μ")
     }
-    if (operation != "latex" && operation != "mathjs" && operation != "simplify" && operation != "eval" && operation != "unit")
+    if (operation != "latex" && operation != "mathjs" && operation != "simplify" && operation != "evaluate" && operation != "unit")
         equation = equation.split("=").map(exp => math.simplify(operation.replace("$&", exp).replace("$0", item))).join(" = ");
     else if (operation == "simplify")
         equation = equation.split("=").map(exp => math.simplify(exp)).join(" = ");
-    else if (operation == "eval")
-        equation = equation.split("=")[0] + "=" + (item ? math.eval(equation.split("=")[1], item) : math.eval(equation.split("=")[1]));
+    else if (operation == "evaluate")
+        equation = equation.split("=")[0] + "=" + (item ? math.evaluate(equation.split("=")[1], item) : math.evaluate(equation.split("=")[1]));
     if (operation != "mathjs" && operation != "unit") {
-        if (operation == "eval") {
+        if (operation == "evaluate") {
             var value = equation.match(/(?<== ?)\d*\.?\d*/);
             equation = equation.replace(/(?<== ?)\d*\.?\d*/, "");
         }
@@ -124,7 +124,7 @@ function operate(equation, operation, item) {
             }
         })).join(" = ");
 //        equation = unparseBrackets(parseBrackets(equation).replace(/\\mathrm(\\\d+l){(.*)\1}/g, "$2"))
-        if (operation == "eval")
+        if (operation == "evaluate")
             equation = equation.replace("=", "=" + math.parse(value).toString(3) + "\\left[") + "\\right]";
 //        Object.keys(data.antisubsitution).forEach(key => {equation = equation.replace(data.antisubstitution[key], key)})
 //        Object.keys(data.symbols).forEach(key => {equation = equation.replace(RegExp(key.replace(/[$()*+\-.?[\\\]^{|}]/g, "\\$&"), "g"), data.symbols[key].source)});

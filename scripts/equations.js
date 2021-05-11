@@ -347,7 +347,7 @@ var data = { // eslint-disable-line no-unused-vars
                     }, {})[variable] || data.constants[variable];
                     return varVal[0] + "\\ \\left[" + varVal[1] + "\\right]";
                 })).replace(/](\d)/g, "]\\cdot $1");
-                eq.current = operate(eq.current.replace(/\\left\[|\\right\]/g, " "), "eval");
+                eq.current = operate(eq.current.replace(/\\left\[|\\right\]/g, " "), "evaluate");
                 eq.answer = eq.current.split(/ ?= ?/);
                 eq.answer[1] = eq.answer[1].replace("\\right]", "").split("\\left[");
                 eq.history.forEach((tex, i) => eq.history[i] = tex.replace(/\d+\.?\d*/g, (num) => math.format(parseFloat(num), 3).replace(/e+?(-?\d+)/, "\\times 10^{$1}")));
